@@ -1,0 +1,19 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+button {
+  padding: 40px;
+  margin: 10px;
+  border-radius: 3px;
+  background-color: teal;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+button:active {
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
