@@ -33,6 +33,13 @@ const reducer = (state, action) => {
         count: state.count - 1
       };
 
+    case 'REPORT_ERROR':
+      return {
+        ...state,
+        fetching: false,
+        error: action.error
+      };
+
     default:
       return state;
   }

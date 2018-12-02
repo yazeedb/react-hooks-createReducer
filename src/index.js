@@ -7,21 +7,31 @@ import './styles.css';
 
 function App() {
   const [state, dispatch] = useCount();
-  const { count, fetching } = state;
+  const { count, fetching, error } = state;
 
   useEffect(() => {
-    getCountFromServer().then(count => {
-      dispatch({ type: 'SET_COUNT', count });
-    });
+    getCountFromServer()
+      .then(count => {
+        dispatch({ type: 'SET_COUNT', count });
+      })
+      .catch(error => {
+        dispatch({ type: 'REPORT_ERROR', error });
+      });
   }, []);
 
   return (
     <div className="App">
-      <h1>{fetching ? 'Fetching count...' : `count: ${count}`}</h1>
+      <h1>
+        {error ? error : fetching ? 'Fetching count...' : `count: ${count}`}
+      </h1>
 
-      <button onClick={() => dispatch({ type: 'INCREMENT' })}>Up!</button>
+      <button onClick={() => dispatch({ type: 'INCREMENT' })} disabled={error}>
+        Up!
+      </button>
 
-      <button onClick={() => dispatch({ type: 'DECREMENT' })}>Down!</button>
+      <button onClick={() => dispatch({ type: 'DECREMENT' })} disabled={error}>
+        Down!
+      </button>
     </div>
   );
 }
