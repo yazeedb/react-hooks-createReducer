@@ -1,29 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { useState } from 'react';
-import useFetchData from './useFetchData';
+import { useEffect } from 'react';
+import useCount from './useCount';
 import getCountFromServer from './getCountFromServer';
 import './styles.css';
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [state, dispatch] = useFetchData();
+  const [state, dispatch] = useCount();
+  const { count, fetching } = state;
 
-  getCountFromServer().then(console.log);
-
-  console.log(state);
+  useEffect(() => {
+    getCountFromServer().then(count => {
+      dispatch({ type: 'SET_COUNT', count });
+    });
+  }, []);
 
   return (
     <div className="App">
-      <h1>count: {count}</h1>
+      <h1>{fetching ? 'Fetching count...' : `count: ${count}`}</h1>
 
-      <button onClick={() => dispatch({ type: 'FETCH' })}>fetch</button>
+      <button onClick={() => dispatch({ type: 'INCREMENT' })}>Up!</button>
 
-      <button onClick={() => setCount(prevCount => prevCount + 1)}>Up!</button>
-
-      <button onClick={() => setCount(prevCount => prevCount - 1)}>
-        Down!
-      </button>
+      <button onClick={() => dispatch({ type: 'DECREMENT' })}>Down!</button>
     </div>
   );
 }
