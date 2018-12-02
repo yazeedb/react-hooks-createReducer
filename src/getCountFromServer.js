@@ -3,8 +3,8 @@ export default () => {
 
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      // resolve(response);
-      reject('Server error! Please try again.');
+      resolve(response);
+      // reject('Server error! Please try again.');
     }, 1000);
   });
 };

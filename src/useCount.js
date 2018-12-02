@@ -1,4 +1,5 @@
 import { useReducer } from 'react';
+import createReducer from './createReducer';
 
 const initialState = {
   fetching: true,
@@ -6,43 +7,26 @@ const initialState = {
   count: null
 };
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'FETCH':
-      return {
-        ...state,
-        fetching: true
-      };
-
-    case 'SET_COUNT':
-      return {
-        ...state,
-        fetching: false,
-        count: action.count
-      };
-
-    case 'INCREMENT':
-      return {
-        ...state,
-        count: state.count + 1
-      };
-
-    case 'DECREMENT':
-      return {
-        ...state,
-        count: state.count - 1
-      };
-
-    case 'REPORT_ERROR':
-      return {
-        ...state,
-        fetching: false,
-        error: action.error
-      };
-
-    default:
-      return state;
-  }
-};
+const reducer = createReducer(initialState, {
+  FETCH: state => ({ ...state, fetching: true }),
+  SET_COUNT: (state, action) => ({
+    ...state,
+    fetching: false,
+    count: action.count
+  }),
+  INCREMENT: (state, action) => ({
+    ...state,
+    count: state.count + 1
+  }),
+  DECREMENT: (state, action) => ({
+    ...state,
+    count: state.count - 1
+  }),
+  REPORT_ERROR: (state, action) => ({
+    ...state,
+    fetching: false,
+    error: action.error
+  })
+});
 
 export default () => useReducer(reducer, initialState);
